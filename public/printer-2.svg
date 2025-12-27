@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 301.13 46.27">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2, .cls-3 {
+        fill: #cf422d;
+      }
+
+      .cls-3 {
+        font-family: Edmund-Free, Edmund-Free;
+        font-size: 11px;
+      }
+
+      .cls-4 {
+        fill: #2f292b;
+      }
+
+      .cls-5 {
+        fill: #cdaf4d;
+      }
+    </style>
+  </defs>
+  <g id="Layer_7" data-name="Layer 7">
+    <path class="cls-1" d="M18.37.5h282.26v45.27H.5v-27.4C.5,8.51,8.51.5,18.37.5Z"/>
+    <rect class="cls-1" x=".5" y="30.37" width="300.13" height="15.4"/>
+  </g>
+  <g id="Layer_3" data-name="Layer 3">
+    <rect class="cls-2" x=".5" y="43.16" width="300.13" height="2.6"/>
+    <rect class="cls-2" x="144.83" y="30.37" width="8.97" height="15.4"/>
+    <rect class="cls-4" x="153.79" y="30.37" width="8.97" height="15.4"/>
+    <rect class="cls-5" x="162.76" y="30.37" width="8.97" height="15.4"/>
+  </g>
+</svg>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 301.13 133.51">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #000;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3, .cls-4 {
+        fill: #cf422d;
+      }
+
+      .cls-4 {
+        font-family: Edmund-Free, Edmund-Free;
+        font-size: 11px;
+      }
+
+      .cls-5 {
+        fill: #2f292b;
+      }
+
+      .cls-2 {
+        stroke: #cf422d;
+        stroke-linecap: round;
+        stroke-width: 5px;
+      }
+
+      .cls-6 {
+        fill: #cdaf4d;
+      }
+    </style>
+  </defs>
+  <g id="Layer_7" data-name="Layer 7">
+    <path class="cls-1" d="M18.37,87.75h282.26v45.27H.5v-27.4c0-9.86,8.01-17.87,17.87-17.87Z"/>
+    <rect class="cls-1" x=".5" y="117.62" width="300.13" height="15.4"/>
+  </g>
+  <g id="Layer_6" data-name="Layer 6">
+    <g>
+      <line class="cls-2" x1="169.21" y1="50.19" x2="153.79" y2="65.61"/>
+      <line class="cls-2" x1="153.79" y1="65.61" x2="138.37" y2="50.19"/>
+    </g>
+    <line class="cls-2" x1="153.79" y1="65.61" x2="153.79" y2="2.5"/>
+  </g>
+  <g id="Layer_3" data-name="Layer 3">
+    <text class="cls-4" transform="translate(237.78 115.06)"><tspan x="0" y="0">KEPTSCENE</tspan></text>
+    <rect class="cls-3" x=".5" y="130.41" width="300.13" height="2.6"/>
+    <rect class="cls-3" x="144.83" y="117.62" width="8.97" height="15.4"/>
+    <rect class="cls-5" x="153.79" y="117.62" width="8.97" height="15.4"/>
+    <rect class="cls-6" x="162.76" y="117.62" width="8.97" height="15.4"/>
+  </g>
+</svg>

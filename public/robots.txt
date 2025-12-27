@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Disallow private/sensitive pages
+Disallow: /camera
+Disallow: /result
+Disallow: /error
+
+# Sitemap
+Sitemap: /sitemap.xml
+

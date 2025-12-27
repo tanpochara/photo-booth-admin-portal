@@ -1,0 +1,41 @@
+{
+  "name": "KeptScene - AI Photo Booth",
+  "short_name": "KeptScene",
+  "description": "Create beautiful AI-powered photo booth experiences with customizable frames, filters, and effects.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#C41E3A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/photobooth.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/photobooth.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["photo", "entertainment", "lifestyle"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Start Photo Booth",
+      "short_name": "Start",
+      "description": "Start a new photo booth session",
+      "url": "/photo-booth",
+      "icons": [
+        {
+          "src": "/photobooth.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}
+
