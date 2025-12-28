@@ -6,7 +6,7 @@ export type EditImageCoordinateRequestDto = {
     /**
      * The ID of the image coordinate
      */
-    id: string;
+    id: string | null;
     /**
      * The x coordinate of the image coordinate
      */
@@ -30,6 +30,15 @@ export type EditImageCoordinateRequestDto = {
     /**
      * The image coordinate type of the image coordinate
      */
-    imageCoordinateType: string;
+    imageCoordinateType: EditImageCoordinateRequestDto.imageCoordinateType;
 };
+export namespace EditImageCoordinateRequestDto {
+    /**
+     * The image coordinate type of the image coordinate
+     */
+    export enum imageCoordinateType {
+        NORMAL = 'NORMAL',
+        GIF = 'GIF',
+    }
+}
 

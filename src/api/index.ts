@@ -11,7 +11,7 @@ export type { ChildFrameResponseDto } from './models/ChildFrameResponseDto';
 export type { CreateFrameRequestDto } from './models/CreateFrameRequestDto';
 export type { DetailedFrameResponseDto } from './models/DetailedFrameResponseDto';
 export { EditAssetsRequestDto } from './models/EditAssetsRequestDto';
-export type { EditImageCoordinateRequestDto } from './models/EditImageCoordinateRequestDto';
+export { EditImageCoordinateRequestDto } from './models/EditImageCoordinateRequestDto';
 export type { EditImageCoordinatesRequestDto } from './models/EditImageCoordinatesRequestDto';
 export type { EditOverviewRequestDto } from './models/EditOverviewRequestDto';
 export type { FrameResponseDto } from './models/FrameResponseDto';

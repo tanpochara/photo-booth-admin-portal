@@ -156,7 +156,6 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
               <div className="text-sm text-muted-foreground">Filter (upload)</div>
               <Input
                 type="file"
-                accept="image/*"
                 onChange={(e) => setEdit((p) => ({ ...p, filterFile: e.target.files?.[0] ?? null }))}
                 disabled={isPending}
               />

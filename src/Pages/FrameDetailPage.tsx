@@ -115,7 +115,11 @@ export const FrameDetailPage = () => {
           </TabsContent>
 
           <TabsContent value="coordinates">
-            <CoordinatesTab frameId={selectedFrame.id} coordinates={selectedFrame.imageCoordinates} />
+            <CoordinatesTab
+              frameId={selectedFrame.id}
+              imagesCount={frame.imagesCount}
+              coordinates={selectedFrame.imageCoordinates}
+            />
           </TabsContent>
         </Tabs>
       </div>
