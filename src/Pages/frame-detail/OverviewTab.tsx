@@ -5,6 +5,7 @@ import { useEditFrameOverview } from "@/hooks/api/useEditFrameOverview";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import type { EditOverviewRequestDto } from "@/api";
+import { toast } from "sonner";
 
 type Props = {
   frameId: string;
@@ -45,7 +46,11 @@ export function OverviewTab({ frameId, displayedName, frame }: Props) {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({ queryKey: ["frame-detailed"] });
+          toast.success("Frame overview updated");
           setIsEditing(false);
+        },
+        onError: () => {
+          toast.error("Failed to update frame overview");
         },
       }
     );

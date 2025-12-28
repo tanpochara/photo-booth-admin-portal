@@ -26,6 +26,24 @@ export type EditAssetsRequestDto = {
     /**
      * The overlay mode
      */
-    overlayMode?: string | null;
+    overlayMode?: EditAssetsRequestDto.overlayMode | null;
 };
+export namespace EditAssetsRequestDto {
+    /**
+     * The overlay mode
+     */
+    export enum overlayMode {
+        SRC_OVER = 'SRC_OVER',
+        DEST_OVER = 'DEST_OVER',
+        MULTIPLY = 'MULTIPLY',
+        ADD = 'ADD',
+        SCREEN = 'SCREEN',
+        OVERLAY = 'OVERLAY',
+        DARKEN = 'DARKEN',
+        LIGHTEN = 'LIGHTEN',
+        HARD_LIGHT = 'HARD_LIGHT',
+        DIFFERENCE = 'DIFFERENCE',
+        EXCLUSION = 'EXCLUSION',
+    }
+}
 

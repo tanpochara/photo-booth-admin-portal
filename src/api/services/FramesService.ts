@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CreateFrameRequestDto } from '../models/CreateFrameRequestDto';
 import type { DetailedFrameResponseDto } from '../models/DetailedFrameResponseDto';
 import type { EditAssetsRequestDto } from '../models/EditAssetsRequestDto';
 import type { EditImageCoordinatesRequestDto } from '../models/EditImageCoordinatesRequestDto';
@@ -21,6 +22,23 @@ export class FramesService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/frames',
+        });
+    }
+    /**
+     * Create a new frame
+     * Creates a new frame
+     * @param requestBody
+     * @returns any Frame created successfully
+     * @throws ApiError
+     */
+    public static framesControllerCreateFrame(
+        requestBody: CreateFrameRequestDto,
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/frames',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
     /**
@@ -84,13 +102,13 @@ export class FramesService {
      * Edit the assets of a child frame
      * Edits the assets of a child frame
      * @param childFrameId
-     * @param requestBody
+     * @param formData Assets
      * @returns any Assets edited successfully
      * @throws ApiError
      */
     public static framesControllerEditAssets(
         childFrameId: string,
-        requestBody: EditAssetsRequestDto,
+        formData: EditAssetsRequestDto,
     ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'PATCH',
@@ -98,8 +116,8 @@ export class FramesService {
             path: {
                 'childFrameId': childFrameId,
             },
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
     /**

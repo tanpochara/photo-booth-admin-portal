@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { EditAssetsRequestDto } from "@/api/models/EditAssetsRequestDto";
 import { useEditFrameAsset } from "@/hooks/api/useEditFrameAsset";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
@@ -18,7 +20,7 @@ type AssetEditState = {
   gifFrameFile: File | null;
   filterFile: File | null;
   overlayFile: File | null;
-  overlayMode: string;
+  overlayMode: "" | EditAssetsRequestDto.overlayMode;
 };
 
 function buildAssetsFormData(edit: AssetEditState): FormData {
@@ -32,7 +34,7 @@ function buildAssetsFormData(edit: AssetEditState): FormData {
   if (edit.overlayFile) fd.append("overlay", edit.overlayFile);
 
   // Non-file fields are still allowed in multipart.
-  if (edit.overlayMode.trim()) fd.append("overlayMode", edit.overlayMode.trim());
+  if (edit.overlayMode) fd.append("overlayMode", edit.overlayMode);
 
   return fd;
 }
@@ -55,7 +57,7 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
     gifFrameFile: null,
     filterFile: null,
     overlayFile: null,
-    overlayMode: overlayMode ?? "",
+    overlayMode: (overlayMode as EditAssetsRequestDto.overlayMode | null) ?? "",
   });
 
   function resetEditState() {
@@ -65,7 +67,7 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
       gifFrameFile: null,
       filterFile: null,
       overlayFile: null,
-      overlayMode: overlayMode ?? "",
+      overlayMode: (overlayMode as EditAssetsRequestDto.overlayMode | null) ?? "",
     });
   }
 
@@ -161,11 +163,22 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
             </div>
             <div className="space-y-2 md:col-span-2">
               <div className="text-sm text-muted-foreground">Overlay mode</div>
-              <Input
+              <Select
                 value={edit.overlayMode}
-                onChange={(e) => setEdit((p) => ({ ...p, overlayMode: e.target.value }))}
+                onValueChange={(value) => setEdit((p) => ({ ...p, overlayMode: value as "" | EditAssetsRequestDto.overlayMode }))}
                 disabled={isPending}
-              />
+              >
+                <SelectTrigger className="w-full" aria-label="Overlay mode">
+                  <SelectValue placeholder="Select overlay mode" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.values(EditAssetsRequestDto.overlayMode).map((mode) => (
+                    <SelectItem key={mode} value={mode}>
+                      {mode}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
         )}
