@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { useToggleFrameActiveStatus } from "@/hooks/api/useToggleFrameActiveStatus";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 type Props = {
   frameId: string;
@@ -29,11 +30,13 @@ export function FrameDetailHeader({ frameId, name, isActive }: Props) {
             Back
           </Button>
           <Button
-            variant="destructive"
+            variant={isActive ? "destructive" : "default"}
+            className={isActive ? "bg-red-500 text-white hover:bg-red-500/90" : "bg-green-500 text-white hover:bg-green-500/90"}
             onClick={() => {
               toggleFrameActiveStatus(frameId, {
                 onSuccess: () => {
                   queryClient.invalidateQueries({ queryKey: ["frame-detailed"] });
+                  toast.success(isActive ? "Frame deactivated" : "Frame activated");
                   navigate("/");
                 },
               });
