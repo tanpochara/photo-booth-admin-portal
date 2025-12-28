@@ -6,7 +6,7 @@ export type ImageCoordinateResponseDto = {
     /**
      * The ID of the image coordinate
      */
-    id: string;
+    id?: string;
     /**
      * The x coordinate of the image coordinate
      */

@@ -10,7 +10,7 @@ export const FrameCard = ({ frame, onClick }: Props) => {
   return (
     <Card onClick={onClick}> 
       <CardHeader>
-        <CardTitle>{frame.name}</CardTitle>
+        <CardTitle className={frame.isActive ? "text-vintage-black" : "text-red-500"}>{frame.name} {!frame.isActive && "(Inactive)"}</CardTitle>
       </CardHeader>
     </Card>
   );

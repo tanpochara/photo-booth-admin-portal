@@ -1,11 +1,11 @@
 import { FramesService } from "@/api";
 import { useMutation } from "@tanstack/react-query";
 
-export const useMarkFrameDeprecated = () => {
+export const useToggleFrameActiveStatus = () => {
     return useMutation({
-        mutationKey: ['mark-frame-deprecated'],
+        mutationKey: ['toggle-frame-active-status'],
         mutationFn: async (frameId: string) => {
-            return FramesService.framesControllerDeprecateChildFrame(frameId);
+            return FramesService.framesControllerToggleActiveStatus(frameId);
         },
     });
 };

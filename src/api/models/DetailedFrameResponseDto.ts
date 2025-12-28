@@ -34,5 +34,9 @@ export type DetailedFrameResponseDto = {
      * The frame of the frame
      */
     frame: ParentFrameResponseDto;
+    /**
+     * The is active of the frame
+     */
+    isActive: boolean;
 };
 

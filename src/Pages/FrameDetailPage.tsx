@@ -97,7 +97,7 @@ export const FrameDetailPage = () => {
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6">
       <div className="flex flex-col gap-4">
-        <FrameDetailHeader frameId={selectedFrame.id} name={selectedFrame.name} />
+        <FrameDetailHeader frameId={selectedFrame.id} name={selectedFrame.name} isActive={selectedFrame.isActive} />
 
         <Tabs defaultValue="overview">
           <TabsList>
@@ -107,15 +107,15 @@ export const FrameDetailPage = () => {
           </TabsList>
 
           <TabsContent value="overview">
-            <OverviewTab frame={frame} />
+            <OverviewTab frameId={selectedFrame.id} displayedName={selectedFrame.name} frame={frame} />
           </TabsContent>
 
           <TabsContent value="assets">
-            <AssetsTab assets={assets} overlayMode={frame.overlayMode} />
+            <AssetsTab frameId={selectedFrame.id} assets={assets} overlayMode={frame.overlayMode} />
           </TabsContent>
 
           <TabsContent value="coordinates">
-            <CoordinatesTab coordinates={selectedFrame.imageCoordinates} />
+            <CoordinatesTab frameId={selectedFrame.id} coordinates={selectedFrame.imageCoordinates} />
           </TabsContent>
         </Tabs>
       </div>

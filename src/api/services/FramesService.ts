@@ -125,18 +125,18 @@ export class FramesService {
         });
     }
     /**
-     * Deprecate a child frame
+     * Toggle the active status of a child frame
      * Deprecates a child frame
      * @param childFrameId
-     * @returns any Child frame deprecated successfully
+     * @returns any Child frame active status toggled successfully
      * @throws ApiError
      */
-    public static framesControllerDeprecateChildFrame(
+    public static framesControllerToggleActiveStatus(
         childFrameId: string,
     ): CancelablePromise<Record<string, any>> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/frames/{childFrameId}/deprecate',
+            url: '/frames/{childFrameId}/toggle-active-status',
             path: {
                 'childFrameId': childFrameId,
             },
