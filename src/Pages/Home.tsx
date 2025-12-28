@@ -172,7 +172,7 @@ export const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        {data?.map((frame) => (
+        {data && data?.map((frame) => (
           <FrameCard
             key={frame.id}
             frame={frame}
