@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { FrameResponseDto } from './FrameResponseDto';
 import type { ImageCoordinateResponseDto } from './ImageCoordinateResponseDto';
+import type { ParentFrameResponseDto } from './ParentFrameResponseDto';
 export type DetailedFrameResponseDto = {
     /**
      * The ID of the frame
@@ -16,15 +16,15 @@ export type DetailedFrameResponseDto = {
     /**
      * The filter path of the frame
      */
-    filterPath: string;
+    filterPath?: string | null;
     /**
      * The strip background path of the frame
      */
-    stripBackgroundPath: string;
+    stripBackgroundPath?: string | null;
     /**
      * The gif frame path of the frame
      */
-    gifFramePath: string;
+    gifFramePath?: string | null;
     /**
      * The sample image url of the frame
      */
@@ -33,6 +33,6 @@ export type DetailedFrameResponseDto = {
     /**
      * The frame of the frame
      */
-    frame: FrameResponseDto;
+    frame: ParentFrameResponseDto;
 };
 

@@ -3,6 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DetailedFrameResponseDto } from '../models/DetailedFrameResponseDto';
+import type { EditAssetsRequestDto } from '../models/EditAssetsRequestDto';
+import type { EditImageCoordinatesRequestDto } from '../models/EditImageCoordinatesRequestDto';
+import type { EditOverviewRequestDto } from '../models/EditOverviewRequestDto';
 import type { FrameResponseDto } from '../models/FrameResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -52,6 +55,90 @@ export class FramesService {
             },
             query: {
                 'isBackgroundReplacementOptOut': isBackgroundReplacementOptOut,
+            },
+        });
+    }
+    /**
+     * Edit the overview of a child frame
+     * Edits the overview of a child frame
+     * @param childFrameId
+     * @param requestBody
+     * @returns any Overview edited successfully
+     * @throws ApiError
+     */
+    public static framesControllerEditOverview(
+        childFrameId: string,
+        requestBody: EditOverviewRequestDto,
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/frames/{childFrameId}/overview',
+            path: {
+                'childFrameId': childFrameId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * Edit the assets of a child frame
+     * Edits the assets of a child frame
+     * @param childFrameId
+     * @param requestBody
+     * @returns any Assets edited successfully
+     * @throws ApiError
+     */
+    public static framesControllerEditAssets(
+        childFrameId: string,
+        requestBody: EditAssetsRequestDto,
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/frames/{childFrameId}/assets',
+            path: {
+                'childFrameId': childFrameId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * Edit the image coordinates of a child frame
+     * Edits the image coordinates of a child frame
+     * @param childFrameId
+     * @param requestBody
+     * @returns any Image coordinates edited successfully
+     * @throws ApiError
+     */
+    public static framesControllerEditImageCoordinates(
+        childFrameId: string,
+        requestBody: EditImageCoordinatesRequestDto,
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/frames/{childFrameId}/image-coordinates',
+            path: {
+                'childFrameId': childFrameId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * Deprecate a child frame
+     * Deprecates a child frame
+     * @param childFrameId
+     * @returns any Child frame deprecated successfully
+     * @throws ApiError
+     */
+    public static framesControllerDeprecateChildFrame(
+        childFrameId: string,
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/frames/{childFrameId}/deprecate',
+            path: {
+                'childFrameId': childFrameId,
             },
         });
     }

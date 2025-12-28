@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { Layout } from "./Layout";
+import { HomePage } from "@/Pages/Home";
+import { FrameDetailPage } from "@/Pages/FrameDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -8,7 +10,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1> hello world </h1>,
+        element: <HomePage />,
+      },
+      {
+        path: "/frame/:frameId",
+        element: <FrameDetailPage />,
       },
     ],
   },

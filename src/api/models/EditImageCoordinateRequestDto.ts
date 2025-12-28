@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ImageCoordinateResponseDto = {
+export type EditImageCoordinateRequestDto = {
     /**
      * The ID of the image coordinate
      */

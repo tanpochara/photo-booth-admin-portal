@@ -20,13 +20,15 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-    BASE: '',
+    BASE: import.meta.env.VITE_API_BASE_URL ?? '',
     VERSION: '1.0',
     WITH_CREDENTIALS: false,
     CREDENTIALS: 'include',
     TOKEN: undefined,
     USERNAME: undefined,
     PASSWORD: undefined,
-    HEADERS: undefined,
+    HEADERS: {
+        'x-admin-api-key': import.meta.env.VITE_ADMIN_API_KEY ?? '',
+    },
     ENCODE_PATH: undefined,
 };
