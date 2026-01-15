@@ -29,6 +29,10 @@ export type DetailedFrameResponseDto = {
      * The sample image url of the frame
      */
     sampleImageUrl: string;
+    /**
+     * The frame detail sample image url of the frame
+     */
+    frameDetailSampleImageUrl: string;
     imageCoordinates: Array<ImageCoordinateResponseDto>;
     /**
      * The frame of the frame

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { EditAssetsRequestDto } from "@/api/models/EditAssetsRequestDto";
 import { useEditFrameAsset } from "@/hooks/api/useEditFrameAsset";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,6 +17,7 @@ type Props = {
 
 type AssetEditState = {
   sampleImageFile: File | null;
+  frameDetailSampleImageFile: File | null;
   stripBackgroundFile: File | null;
   gifFrameFile: File | null;
   filterFile: File | null;
@@ -32,6 +34,7 @@ function buildAssetsFormData(edit: AssetEditState): FormData {
   if (edit.gifFrameFile) fd.append("gifFrame", edit.gifFrameFile);
   if (edit.filterFile) fd.append("filter", edit.filterFile);
   if (edit.overlayFile) fd.append("overlay", edit.overlayFile);
+  if (edit.frameDetailSampleImageFile) fd.append("frameDetailSampleImage", edit.frameDetailSampleImageFile);
 
   // Non-file fields are still allowed in multipart.
   if (edit.overlayMode) fd.append("overlayMode", edit.overlayMode);
@@ -57,6 +60,7 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
     gifFrameFile: null,
     filterFile: null,
     overlayFile: null,
+    frameDetailSampleImageFile: null,
     overlayMode: (overlayMode as EditAssetsRequestDto.overlayMode | null) ?? "",
   });
 
@@ -67,6 +71,7 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
       gifFrameFile: null,
       filterFile: null,
       overlayFile: null,
+      frameDetailSampleImageFile: null,
       overlayMode: (overlayMode as EditAssetsRequestDto.overlayMode | null) ?? "",
     });
   }
@@ -117,7 +122,16 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
         {isEditing && (
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <div className="text-sm text-muted-foreground">Sample image (upload)</div>
+              <div className="text-sm text-muted-foreground">Frame sample image (frames page) (upload)</div>
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setEdit((p) => ({ ...p, frameDetailSampleImageFile: e.target.files?.[0] ?? null }))}
+                disabled={isPending}
+              />
+            </div>
+            <div className="space-y-2">
+              <div className="text-sm text-muted-foreground">Sample image (frame detail page) (upload)</div>
               <Input
                 type="file"
                 accept="image/*"
@@ -183,48 +197,50 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
         )}
 
         {!isEditing && (
-          <div className="space-y-3">
-          {items.map((a) => {
-            const url = a.value;
-            const key = `${a.label}:${url}`;
-            const failed = Boolean(failedAssetPreview[key]);
+          <Accordion type="multiple" className="w-full">
+            {items.map((a) => {
+              const url = a.value;
+              const key = `${a.label}:${url}`;
+              const failed = Boolean(failedAssetPreview[key]);
 
-            return (
-              <div key={key} className="space-y-2">
-                <div className="text-sm text-muted-foreground">{a.label}</div>
+              return (
+                <AccordionItem key={key} value={key}>
+                  <AccordionTrigger className="text-sm text-muted-foreground capitalize">
+                    {a.label}
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    {!failed && (
+                      <img
+                        src={url}
+                        alt={a.label}
+                        className="w-full rounded-lg border object-contain"
+                        loading="lazy"
+                        onError={() => setFailedAssetPreview((prev) => ({ ...prev, [key]: true }))}
+                      />
+                    )}
 
-                {!failed && (
-                  <img
-                    src={url}
-                    alt={a.label}
-                    className="w-full rounded-lg border object-contain"
-                    loading="lazy"
-                    onError={() => setFailedAssetPreview((prev) => ({ ...prev, [key]: true }))}
-                  />
-                )}
+                    {a.label === "overlay" && (
+                      <>
+                        <div className="text-sm text-muted-foreground">Overlay mode</div>
+                        <div className="font-medium">{overlayMode || "-"}</div>
+                      </>
+                    )}
 
-                {a.label === "overlay" && (
-                  <>
-                    <div className="text-sm text-muted-foreground">Overlay mode</div>
-                    <div className="font-medium">{overlayMode || "-"}</div>
-                  </>
-                )}
-
-                {/* keep the link behavior you had (only for filter), but we can expand later if desired */}
-                {a.label === "filter" && (
-                  <a
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block break-all rounded-md border bg-muted/30 px-3 py-2 font-mono text-sm hover:underline"
-                  >
-                    {url}
-                  </a>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                    {a.label === "filter" && (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="block break-all rounded-md border bg-muted/30 px-3 py-2 font-mono text-sm hover:underline"
+                      >
+                        {url}
+                      </a>
+                    )}
+                  </AccordionContent>
+                </AccordionItem>
+              );
+            })}
+          </Accordion>
         )}
       </CardContent>
     </Card>

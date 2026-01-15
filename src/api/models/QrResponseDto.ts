@@ -16,8 +16,12 @@ export type QrResponseDto = {
      */
     amount: number;
     /**
-     * PromptPay phone number or ID
+     * Beam charge ID for payment tracking
      */
-    promptPayId: string;
+    beamChargeId: string;
+    /**
+     * Expiry time of the QR code
+     */
+    expiry: string;
 };
 

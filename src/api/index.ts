@@ -22,6 +22,8 @@ export type { ParentFrameResponseDto } from './models/ParentFrameResponseDto';
 export type { QrResponseDto } from './models/QrResponseDto';
 export type { UploadPhotoDto } from './models/UploadPhotoDto';
 export type { UploadPhotoResponseDto } from './models/UploadPhotoResponseDto';
+export type { ValidateCouponRequestDto } from './models/ValidateCouponRequestDto';
+export type { ValidatePaymentDto } from './models/ValidatePaymentDto';
 export type { ValidatePaymentResponseDto } from './models/ValidatePaymentResponseDto';
 
 export { FramesService } from './services/FramesService';

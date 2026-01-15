@@ -4,6 +4,8 @@
 /* eslint-disable */
 import type { GenerateQrDto } from '../models/GenerateQrDto';
 import type { QrResponseDto } from '../models/QrResponseDto';
+import type { ValidateCouponRequestDto } from '../models/ValidateCouponRequestDto';
+import type { ValidatePaymentDto } from '../models/ValidatePaymentDto';
 import type { ValidatePaymentResponseDto } from '../models/ValidatePaymentResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -31,32 +33,40 @@ export class PaymentService {
     }
     /**
      * Validate payment and generate one-time token
-     * Validate a payment by uploading a payment slip. If validation is successful, returns a one-time JWT token for photo upload authorization.
-     * @param formData Payment transaction ID and optional payment slip image
+     * Validates a payment by checking its status with Beam payment gateway. If the payment has been completed (via webhook or polling), returns a one-time JWT token for photo upload authorization.
+     * @param requestBody
      * @returns ValidatePaymentResponseDto Payment validated successfully, token generated
      * @throws ApiError
      */
     public static paymentControllerValidatePayment(
-        formData: {
-            /**
-             * Payment transaction ID from QR generation
-             */
-            transactionId: string;
-            /**
-             * Payment slip image (optional)
-             */
-            paymentSlip?: Blob;
-        },
+        requestBody: ValidatePaymentDto,
     ): CancelablePromise<ValidatePaymentResponseDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/payment/validate',
-            formData: formData,
-            mediaType: 'multipart/form-data',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
-                400: `Payment validation failed`,
+                400: `Payment validation failed or not yet completed`,
                 404: `Payment transaction not found`,
             },
+        });
+    }
+    /**
+     * Validate coupon and generate one-time token
+     * Validate a coupon by providing a coupon code. If validation is successful, returns a one-time JWT token for photo upload authorization.
+     * @param requestBody
+     * @returns ValidatePaymentResponseDto Coupon validated successfully, token generated
+     * @throws ApiError
+     */
+    public static paymentControllerValidateCoupon(
+        requestBody: ValidateCouponRequestDto,
+    ): CancelablePromise<ValidatePaymentResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/payment/validate-coupon',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 }

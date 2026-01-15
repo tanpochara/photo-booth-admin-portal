@@ -19,5 +19,9 @@ export type ChildFrameResponseDto = {
      * sample image url of the child frame
      */
     sampleImageUrl: string;
+    /**
+     * frame detail sample image url of the child frame
+     */
+    frameDetailSampleImageUrl: string;
 };
 

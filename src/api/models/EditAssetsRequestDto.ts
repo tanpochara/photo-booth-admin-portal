@@ -8,6 +8,10 @@ export type EditAssetsRequestDto = {
      */
     sampleImage?: Record<string, any> | null;
     /**
+     * The frame detail sample image
+     */
+    frameDetailSampleImage?: Record<string, any> | null;
+    /**
      * The strip background
      */
     stripBackground?: Record<string, any> | null;
