@@ -2,6 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { GetResultsRequestDto } from '../models/GetResultsRequestDto';
+import type { GetResultsResponseDto } from '../models/GetResultsResponseDto';
 import type { JobStatusResponseDto } from '../models/JobStatusResponseDto';
 import type { UploadPhotoDto } from '../models/UploadPhotoDto';
 import type { UploadPhotoResponseDto } from '../models/UploadPhotoResponseDto';
@@ -90,6 +92,32 @@ export class PhotosService {
             },
             errors: {
                 404: `Processed GIF not found or not ready yet`,
+            },
+        });
+    }
+    /**
+     * Get photo processing results
+     * Retrieve payment tokens with associated job IDs and metadata. Admin-only endpoint for analytics and reporting. Excludes coupon-based payments.
+     * @param xAdminApiKey Admin API key for authentication
+     * @param requestBody
+     * @returns GetResultsResponseDto Results retrieved successfully
+     * @throws ApiError
+     */
+    public static photosControllerGetPhotoResults(
+        xAdminApiKey: string,
+        requestBody: GetResultsRequestDto,
+    ): CancelablePromise<GetResultsResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/photos/results',
+            headers: {
+                'x-admin-api-key': xAdminApiKey,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Bad request - invalid date format or parameters`,
+                401: `Unauthorized - invalid or missing admin API key`,
             },
         });
     }

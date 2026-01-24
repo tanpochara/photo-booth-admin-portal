@@ -3,6 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { GenerateQrDto } from '../models/GenerateQrDto';
+import type { PaymentStatusPendingDto } from '../models/PaymentStatusPendingDto';
+import type { PaymentStatusRejectedDto } from '../models/PaymentStatusRejectedDto';
+import type { PaymentStatusValidatedDto } from '../models/PaymentStatusValidatedDto';
 import type { QrResponseDto } from '../models/QrResponseDto';
 import type { ValidateCouponRequestDto } from '../models/ValidateCouponRequestDto';
 import type { ValidatePaymentDto } from '../models/ValidatePaymentDto';
@@ -28,6 +31,27 @@ export class PaymentService {
             mediaType: 'application/json',
             errors: {
                 404: `Child frame not found`,
+            },
+        });
+    }
+    /**
+     * Get payment status
+     * Get the status of a payment transaction.
+     * @param transactionId The ID of the payment transaction
+     * @returns any Payment status retrieved successfully
+     * @throws ApiError
+     */
+    public static paymentControllerGetPaymentStatus(
+        transactionId: string,
+    ): CancelablePromise<(PaymentStatusPendingDto | PaymentStatusValidatedDto | PaymentStatusRejectedDto)> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/payment/status/{transactionId}',
+            path: {
+                'transactionId': transactionId,
+            },
+            errors: {
+                404: `Payment transaction not found`,
             },
         });
     }

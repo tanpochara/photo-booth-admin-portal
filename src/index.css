@@ -8,7 +8,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
+  --color-background: #F6F1E2;
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -313,5 +313,17 @@
     100% {
       opacity: 0;
     }
+  }
+  
+  /* Style datetime-local calendar icon to black */
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: brightness(0);
+    cursor: pointer;
+  }
+  
+  /* For Firefox */
+  input[type="datetime-local"]::-moz-calendar-picker-indicator {
+    filter: brightness(0);
+    cursor: pointer;
   }
 }

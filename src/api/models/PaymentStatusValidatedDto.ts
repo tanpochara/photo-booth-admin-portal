@@ -2,7 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ValidatePaymentResponseDto = {
+export type PaymentStatusValidatedDto = {
+    /**
+     * Payment status
+     */
+    status: PaymentStatusValidatedDto.status;
     /**
      * One-time payment token for photo upload
      */
@@ -11,13 +15,13 @@ export type ValidatePaymentResponseDto = {
      * Child frame ID for the photo booth session
      */
     childFrameId: string;
-    /**
-     * Success message
-     */
-    message: string;
-    /**
-     * Payment transaction ID
-     */
-    transactionId: string;
 };
+export namespace PaymentStatusValidatedDto {
+    /**
+     * Payment status
+     */
+    export enum status {
+        VALIDATED = 'VALIDATED',
+    }
+}
 

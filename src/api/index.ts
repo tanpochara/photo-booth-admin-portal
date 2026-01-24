@@ -16,9 +16,15 @@ export type { EditImageCoordinatesRequestDto } from './models/EditImageCoordinat
 export type { EditOverviewRequestDto } from './models/EditOverviewRequestDto';
 export type { FrameResponseDto } from './models/FrameResponseDto';
 export type { GenerateQrDto } from './models/GenerateQrDto';
+export type { GetResultsRequestDto } from './models/GetResultsRequestDto';
+export type { GetResultsResponseDto } from './models/GetResultsResponseDto';
 export type { ImageCoordinateResponseDto } from './models/ImageCoordinateResponseDto';
 export { JobStatusResponseDto } from './models/JobStatusResponseDto';
 export type { ParentFrameResponseDto } from './models/ParentFrameResponseDto';
+export { PaymentStatusPendingDto } from './models/PaymentStatusPendingDto';
+export { PaymentStatusRejectedDto } from './models/PaymentStatusRejectedDto';
+export { PaymentStatusValidatedDto } from './models/PaymentStatusValidatedDto';
+export type { PhotoResultItemDto } from './models/PhotoResultItemDto';
 export type { QrResponseDto } from './models/QrResponseDto';
 export type { UploadPhotoDto } from './models/UploadPhotoDto';
 export type { UploadPhotoResponseDto } from './models/UploadPhotoResponseDto';
@@ -26,6 +32,7 @@ export type { ValidateCouponRequestDto } from './models/ValidateCouponRequestDto
 export type { ValidatePaymentDto } from './models/ValidatePaymentDto';
 export type { ValidatePaymentResponseDto } from './models/ValidatePaymentResponseDto';
 
+export { AutoscalerService } from './services/AutoscalerService';
 export { FramesService } from './services/FramesService';
 export { PaymentService } from './services/PaymentService';
 export { PhotosService } from './services/PhotosService';

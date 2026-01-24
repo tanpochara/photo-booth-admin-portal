@@ -8,6 +8,10 @@ export type QrResponseDto = {
      */
     transactionId: string;
     /**
+     * Child frame ID for the photo booth session
+     */
+    childFrameId: string;
+    /**
      * QR code as base64 data URL
      */
     qrCodeDataUrl: string;
