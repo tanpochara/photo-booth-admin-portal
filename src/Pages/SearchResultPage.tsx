@@ -181,9 +181,13 @@ export const SearchResultPage = () => {
                   {/* <TableCell>{formatDateToGMT7(result.usedAt)}</TableCell> */}
                   <TableCell>{result.childFrameName}</TableCell>
                   <TableCell className="font-mono text-sm">
-                    <a href={`https://keptscene.com/result?jobId=${result.jobId}`} className="text-blue-500 hover:text-blue-600"> 
-                      link
-                    </a>
+                    {result.jobId ? (
+                      <a href={`https://keptscene.com/result?jobId=${result.jobId}`} className="text-blue-500 hover:text-blue-600">
+                        link
+                      </a>
+                    ) : (
+                      <span className="text-muted-foreground">N/A</span>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
