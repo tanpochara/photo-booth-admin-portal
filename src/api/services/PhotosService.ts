@@ -5,6 +5,7 @@
 import type { GetResultsRequestDto } from '../models/GetResultsRequestDto';
 import type { GetResultsResponseDto } from '../models/GetResultsResponseDto';
 import type { JobStatusResponseDto } from '../models/JobStatusResponseDto';
+import type { ReprocessPhotoRequestDto } from '../models/ReprocessPhotoRequestDto';
 import type { UploadPhotoDto } from '../models/UploadPhotoDto';
 import type { UploadPhotoResponseDto } from '../models/UploadPhotoResponseDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -118,6 +119,37 @@ export class PhotosService {
             errors: {
                 400: `Bad request - invalid date format or parameters`,
                 401: `Unauthorized - invalid or missing admin API key`,
+            },
+        });
+    }
+    /**
+     * Reprocess a photo job
+     * Re-enqueue a previously uploaded photo job for reprocessing with fresh frame configuration. Uses original photos from object storage without re-uploading. Primary lookup via BullMQ job data; falls back to storage listing + DB lookup when the original job has expired from Redis (requires "date" in body). Admin-only endpoint.
+     * @param jobId Original job ID to reprocess
+     * @param xAdminApiKey Admin API key for authentication
+     * @param requestBody Optional parameters for fallback recovery. "date" is required when the BullMQ job has expired. "screenOrientation" overrides the default portrait (1) orientation during fallback.
+     * @returns UploadPhotoResponseDto Job successfully re-enqueued for processing
+     * @throws ApiError
+     */
+    public static photosControllerReprocessPhoto(
+        jobId: string,
+        xAdminApiKey: string,
+        requestBody?: ReprocessPhotoRequestDto,
+    ): CancelablePromise<UploadPhotoResponseDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/photos/{jobId}/reprocess',
+            path: {
+                'jobId': jobId,
+            },
+            headers: {
+                'x-admin-api-key': xAdminApiKey,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                401: `Unauthorized - invalid or missing admin API key`,
+                404: `Original job not found in queue and no date provided, or no photos found in storage, or no payment record linked to this job.`,
             },
         });
     }
