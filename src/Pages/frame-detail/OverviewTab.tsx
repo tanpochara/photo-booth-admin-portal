@@ -1,15 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useEditFrameOverview } from "@/hooks/api/useEditFrameOverview";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import type { EditOverviewRequestDto } from "@/api";
+import type { EditOverviewRequestDto, DetailedFrameResponseDto } from "@/api";
 import { toast } from "sonner";
 
 type Props = {
   frameId: string;
   displayedName: string;
+  price: number;
+  frameType: DetailedFrameResponseDto.frameType;
+  aspectRatio: DetailedFrameResponseDto.aspectRatio;
   frame: {
     layout?: string | null;
     imagesCount: number;
@@ -17,7 +27,7 @@ type Props = {
   };
 };
 
-export function OverviewTab({ frameId, displayedName, frame }: Props) {
+export function OverviewTab({ frameId, displayedName, price, frameType, aspectRatio, frame }: Props) {
   const queryClient = useQueryClient();
   const { mutateAsync, isPending } = useEditFrameOverview();
   const [isEditing, setIsEditing] = useState(false);
@@ -27,6 +37,9 @@ export function OverviewTab({ frameId, displayedName, frame }: Props) {
     layout: frame.layout ?? null,
     imagesCount: frame.imagesCount,
     replaceBackgroundPrompt: frame.replaceBackgroundPrompt ?? null,
+    price: price,
+    frameType: frameType,
+    aspectRatio: aspectRatio,
   });
 
   useEffect(() => {
@@ -36,9 +49,12 @@ export function OverviewTab({ frameId, displayedName, frame }: Props) {
         layout: frame.layout ?? null,
         imagesCount: frame.imagesCount,
         replaceBackgroundPrompt: frame.replaceBackgroundPrompt ?? null,
+        price: price,
+        frameType: frameType,
+        aspectRatio: aspectRatio,
       });
     }
-  }, [displayedName, frame.imagesCount, frame.layout, frame.replaceBackgroundPrompt, isEditing]);
+  }, [displayedName, frame.imagesCount, frame.layout, frame.replaceBackgroundPrompt, price, frameType, aspectRatio, isEditing]);
 
   async function onSave() {
     await mutateAsync(
@@ -127,6 +143,85 @@ export function OverviewTab({ frameId, displayedName, frame }: Props) {
               />
             ) : (
               <div className="font-medium">{frame.imagesCount}</div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm text-muted-foreground">Price</div>
+            {isEditing ? (
+              <div className="relative">
+                <Input
+                  type="number"
+                  value={form.price ? Math.round(form.price / 100) : ""}
+                  onChange={(e) =>
+                    setForm((p) => ({
+                      ...p,
+                      price: e.target.value === "" ? null : Math.round(Number(e.target.value) * 100),
+                    }))
+                  }
+                  disabled={isPending}
+                  className="pr-12"
+                />
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                  THB
+                </span>
+              </div>
+            ) : (
+              <div className="font-medium">{(price / 100).toFixed(2)} THB</div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm text-muted-foreground">Frame Type</div>
+            {isEditing ? (
+              <Select
+                value={form.frameType ?? ""}
+                onValueChange={(value) =>
+                  setForm((p) => ({
+                    ...p,
+                    frameType: value as DetailedFrameResponseDto.frameType,
+                  }))
+                }
+                disabled={isPending}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select frame type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="MONTHLY">Monthly</SelectItem>
+                  <SelectItem value="LOCATION">Location</SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className="font-medium">{frameType}</div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm text-muted-foreground">Aspect Ratio</div>
+            {isEditing ? (
+              <Select
+                value={form.aspectRatio ?? ""}
+                onValueChange={(value) =>
+                  setForm((p) => ({
+                    ...p,
+                    aspectRatio: value as DetailedFrameResponseDto.aspectRatio,
+                  }))
+                }
+                disabled={isPending}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select aspect ratio" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ONE_TO_ONE">1:1 Square</SelectItem>
+                  <SelectItem value="FOUR_TO_THREE">4:3 Landscape</SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className="font-medium">
+                {aspectRatio === "ONE_TO_ONE" ? "1:1 Square" : "4:3 Landscape"}
+              </div>
             )}
           </div>
 

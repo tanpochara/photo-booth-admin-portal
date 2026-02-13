@@ -107,7 +107,14 @@ export const FrameDetailPage = () => {
           </TabsList>
 
           <TabsContent value="overview">
-            <OverviewTab frameId={selectedFrame.id} displayedName={selectedFrame.name} frame={frame} />
+            <OverviewTab
+              frameId={selectedFrame.id}
+              displayedName={selectedFrame.name}
+              price={selectedFrame.price}
+              frameType={selectedFrame.frameType}
+              aspectRatio={selectedFrame.aspectRatio}
+              frame={frame}
+            />
           </TabsContent>
 
           <TabsContent value="assets">
