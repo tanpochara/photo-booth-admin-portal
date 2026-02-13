@@ -18,8 +18,11 @@ import {
 } from "@/components/ui/table";
 import { useGetFrameDetailed } from "@/hooks/api/useGetFrameDetailed";
 import { useGetPhotoResults } from "@/hooks/api/useGetPhotoResults";
+import { useReprocessPhoto } from "@/hooks/api/useReprocessPhoto";
+import { ReprocessResultDialog } from "@/components/ReprocessResultDialog";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import { RefreshCw } from "lucide-react";
 
 interface SearchFormState {
   createdAfter: string;
@@ -50,11 +53,21 @@ const formatDateToGMT7 = (utcDateString: string | null): string => {
 export const SearchResultPage = () => {
   const { data: frames, isLoading: framesLoading } = useGetFrameDetailed();
   const { mutateAsync: searchResults, data, isPending } = useGetPhotoResults();
+  const { mutateAsync: reprocessPhoto, isPending: isReprocessing } =
+    useReprocessPhoto();
 
   const [formState, setFormState] = useState<SearchFormState>({
     createdAfter: "",
     childFrameId: "",
   });
+
+  const [reprocessingJobId, setReprocessingJobId] = useState<string | null>(
+    null
+  );
+  const [reprocessedJobId, setReprocessedJobId] = useState<string | null>(
+    null
+  );
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const canSubmit = useMemo(() => {
     return formState.createdAfter.trim().length > 0;
@@ -74,6 +87,35 @@ export const SearchResultPage = () => {
       toast.error(message);
     }
   }
+
+  async function handleReprocess(jobId: string, createdAt: string) {
+    try {
+      setReprocessingJobId(jobId);
+      toast.info("Reprocessing job...");
+
+      const result = await reprocessPhoto({
+        jobId,
+        date: createdAt,
+      });
+
+      setReprocessedJobId(result.jobId);
+      setDialogOpen(true);
+      toast.success("Job reprocessed successfully!");
+    } catch (e: unknown) {
+      const message =
+        e instanceof Error ? e.message : "Failed to reprocess job";
+      toast.error(message);
+    } finally {
+      setReprocessingJobId(null);
+    }
+  }
+
+  const handleDialogClose = (open: boolean) => {
+    setDialogOpen(open);
+    if (!open) {
+      setReprocessedJobId(null);
+    }
+  };
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-8">
@@ -135,13 +177,14 @@ export const SearchResultPage = () => {
               {/* <TableHead>Used At</TableHead> */}
               <TableHead>Frame Name</TableHead>
               <TableHead>Result</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {/* Loading state */}
             {isPending && (
               <TableRow>
-                <TableCell colSpan={4} className="text-center py-8">
+                <TableCell colSpan={5} className="text-center py-8">
                   Searching...
                 </TableCell>
               </TableRow>
@@ -151,7 +194,7 @@ export const SearchResultPage = () => {
             {!data && !isPending && (
               <TableRow>
                 <TableCell
-                  colSpan={4}
+                  colSpan={5}
                   className="text-center py-8 text-muted-foreground"
                 >
                   Enter search criteria and click Search to view results.
@@ -163,7 +206,7 @@ export const SearchResultPage = () => {
             {data && data.results.length === 0 && !isPending && (
               <TableRow>
                 <TableCell
-                  colSpan={4}
+                  colSpan={5}
                   className="text-center py-8 text-muted-foreground"
                 >
                   No results found for the selected criteria.
@@ -182,11 +225,43 @@ export const SearchResultPage = () => {
                   <TableCell>{result.childFrameName}</TableCell>
                   <TableCell className="font-mono text-sm">
                     {result.jobId ? (
-                      <a href={`https://keptscene.com/result?jobId=${result.jobId}`} className="text-blue-500 hover:text-blue-600">
+                      <a
+                        href={`https://keptscene.com/result?jobId=${result.jobId}`}
+                        className="text-blue-500 hover:text-blue-600"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {`link (${result.jobId.substring(0, 4)}...)`}
                       </a>
                     ) : (
                       <span className="text-muted-foreground">N/A</span>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {result.jobId ? (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          handleReprocess(result.jobId!, result.createdAt)
+                        }
+                        disabled={
+                          isReprocessing && reprocessingJobId === result.jobId
+                        }
+                      >
+                        <RefreshCw
+                          className={`h-4 w-4 mr-2 ${
+                            reprocessingJobId === result.jobId
+                              ? "animate-spin"
+                              : ""
+                          }`}
+                        />
+                        {reprocessingJobId === result.jobId
+                          ? "Processing..."
+                          : "Reprocess"}
+                      </Button>
+                    ) : (
+                      <span className="text-muted-foreground text-sm">-</span>
                     )}
                   </TableCell>
                 </TableRow>
@@ -200,6 +275,15 @@ export const SearchResultPage = () => {
         <div className="mt-4 text-sm text-muted-foreground">
           Total results: {data.total}
         </div>
+      )}
+
+      {/* Reprocess Result Dialog */}
+      {reprocessedJobId && (
+        <ReprocessResultDialog
+          open={dialogOpen}
+          onOpenChange={handleDialogClose}
+          newJobId={reprocessedJobId}
+        />
       )}
     </div>
   );
