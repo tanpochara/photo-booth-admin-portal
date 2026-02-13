@@ -183,7 +183,7 @@ export const SearchResultPage = () => {
                   <TableCell className="font-mono text-sm">
                     {result.jobId ? (
                       <a href={`https://keptscene.com/result?jobId=${result.jobId}`} className="text-blue-500 hover:text-blue-600">
-                        link
+                        {`link (${result.jobId.substring(0, 4)}...)`}
                       </a>
                     ) : (
                       <span className="text-muted-foreground">N/A</span>

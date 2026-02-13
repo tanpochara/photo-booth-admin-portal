@@ -9,11 +9,11 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { ChildFrameResponseDto } from './models/ChildFrameResponseDto';
 export type { CreateFrameRequestDto } from './models/CreateFrameRequestDto';
-export type { DetailedFrameResponseDto } from './models/DetailedFrameResponseDto';
+export { DetailedFrameResponseDto } from './models/DetailedFrameResponseDto';
 export { EditAssetsRequestDto } from './models/EditAssetsRequestDto';
 export { EditImageCoordinateRequestDto } from './models/EditImageCoordinateRequestDto';
 export type { EditImageCoordinatesRequestDto } from './models/EditImageCoordinatesRequestDto';
-export type { EditOverviewRequestDto } from './models/EditOverviewRequestDto';
+export { EditOverviewRequestDto } from './models/EditOverviewRequestDto';
 export type { FrameResponseDto } from './models/FrameResponseDto';
 export type { GenerateQrDto } from './models/GenerateQrDto';
 export type { GetResultsRequestDto } from './models/GetResultsRequestDto';
@@ -34,5 +34,6 @@ export type { ValidatePaymentResponseDto } from './models/ValidatePaymentRespons
 
 export { AutoscalerService } from './services/AutoscalerService';
 export { FramesService } from './services/FramesService';
+export { HealthService } from './services/HealthService';
 export { PaymentService } from './services/PaymentService';
 export { PhotosService } from './services/PhotosService';

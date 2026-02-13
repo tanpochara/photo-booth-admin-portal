@@ -39,8 +39,36 @@ export type DetailedFrameResponseDto = {
      */
     frame: ParentFrameResponseDto;
     /**
+     * The price of the child frame in 100th of baht
+     */
+    price: number;
+    /**
+     * The aspect ratio of the child frame
+     */
+    aspectRatio: DetailedFrameResponseDto.aspectRatio;
+    /**
+     * The frame type of the child frame
+     */
+    frameType: DetailedFrameResponseDto.frameType;
+    /**
      * The is active of the frame
      */
     isActive: boolean;
 };
+export namespace DetailedFrameResponseDto {
+    /**
+     * The aspect ratio of the child frame
+     */
+    export enum aspectRatio {
+        ONE_TO_ONE = 'ONE_TO_ONE',
+        FOUR_TO_THREE = 'FOUR_TO_THREE',
+    }
+    /**
+     * The frame type of the child frame
+     */
+    export enum frameType {
+        MONTHLY = 'MONTHLY',
+        LOCATION = 'LOCATION',
+    }
+}
 

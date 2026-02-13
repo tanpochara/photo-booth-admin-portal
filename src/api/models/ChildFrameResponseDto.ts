@@ -23,5 +23,13 @@ export type ChildFrameResponseDto = {
      * frame detail sample image url of the child frame
      */
     frameDetailSampleImageUrl: string;
+    /**
+     * price of the child frame in 100th of baht
+     */
+    price: number;
+    /**
+     * aspect ratio of the child frame
+     */
+    aspectRatio: string;
 };
 
