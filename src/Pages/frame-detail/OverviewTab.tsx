@@ -11,7 +11,7 @@ import {
 import { useEditFrameOverview } from "@/hooks/api/useEditFrameOverview";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import type { EditOverviewRequestDto, DetailedFrameResponseDto } from "@/api";
+import { EditOverviewRequestDto, DetailedFrameResponseDto } from "@/api";
 import { toast } from "sonner";
 
 type Props = {
@@ -71,6 +71,23 @@ export function OverviewTab({ frameId, displayedName, price, frameType, aspectRa
       }
     );
   }
+
+  const getAspectRatioLabel = (aspectRatio: DetailedFrameResponseDto.aspectRatio) => {
+    switch (aspectRatio) {
+      case DetailedFrameResponseDto.aspectRatio.ONE_TO_ONE:
+        return "1:1 Square";
+      case DetailedFrameResponseDto.aspectRatio.FOUR_TO_THREE:
+        return "4:3 Landscape";
+      case DetailedFrameResponseDto.aspectRatio.THREE_TO_FOUR:
+        return "3:4 Portrait";
+      case DetailedFrameResponseDto.aspectRatio.FOUR_TO_FIVE:
+        return "4:5 Portrait";
+      case DetailedFrameResponseDto.aspectRatio.FIVE_TO_FOUR:
+        return "5:4 Landscape";
+      default:
+        return "Unknown";
+    }
+  };
 
   return (
     <Card>
@@ -215,12 +232,15 @@ export function OverviewTab({ frameId, displayedName, price, frameType, aspectRa
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="ONE_TO_ONE">1:1 Square</SelectItem>
-                  <SelectItem value="FOUR_TO_THREE">4:3 Landscape</SelectItem>
+                  <SelectItem value="FOUR_TO_THREE">4:3 นอน</SelectItem>
+                  <SelectItem value="THREE_TO_FOUR">3:4 ตั้ง</SelectItem>
+                  <SelectItem value="FOUR_TO_FIVE">4:5 ตั้ง</SelectItem>
+                  <SelectItem value="FIVE_TO_FOUR">5:4 นอน</SelectItem>
                 </SelectContent>
               </Select>
             ) : (
               <div className="font-medium">
-                {aspectRatio === "ONE_TO_ONE" ? "1:1 Square" : "4:3 Landscape"}
+                {getAspectRatioLabel(aspectRatio)}
               </div>
             )}
           </div>

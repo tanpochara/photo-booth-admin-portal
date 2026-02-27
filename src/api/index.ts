@@ -34,6 +34,7 @@ export type { ValidatePaymentDto } from './models/ValidatePaymentDto';
 export type { ValidatePaymentResponseDto } from './models/ValidatePaymentResponseDto';
 
 export { AutoscalerService } from './services/AutoscalerService';
+export { CleanupService } from './services/CleanupService';
 export { FramesService } from './services/FramesService';
 export { HealthService } from './services/HealthService';
 export { PaymentService } from './services/PaymentService';
