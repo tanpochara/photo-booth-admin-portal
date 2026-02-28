@@ -18,6 +18,7 @@ const queryClient = new QueryClient();
 const navItems = [
   { path: "/", label: "Frames" },
   { path: "/search-result", label: "Search Results" },
+  { path: "/coupons", label: "Coupons" },
 ];
 
 export const Layout = () => {

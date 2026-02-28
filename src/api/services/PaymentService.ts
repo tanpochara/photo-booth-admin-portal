@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ActiveCouponResponseDto } from '../models/ActiveCouponResponseDto';
 import type { GenerateQrDto } from '../models/GenerateQrDto';
 import type { PaymentStatusPendingDto } from '../models/PaymentStatusPendingDto';
 import type { PaymentStatusRejectedDto } from '../models/PaymentStatusRejectedDto';
@@ -91,6 +92,18 @@ export class PaymentService {
             url: '/payment/validate-coupon',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+    /**
+     * Get active coupons
+     * Get all active coupons.
+     * @returns ActiveCouponResponseDto Active coupons retrieved successfully
+     * @throws ApiError
+     */
+    public static paymentControllerGetActiveCoupons(): CancelablePromise<Array<ActiveCouponResponseDto>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/payment/active-coupons',
         });
     }
 }

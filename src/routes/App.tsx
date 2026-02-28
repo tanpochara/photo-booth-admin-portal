@@ -3,6 +3,7 @@ import { Layout } from "./Layout";
 import { HomePage } from "@/Pages/Home";
 import { FrameDetailPage } from "@/Pages/FrameDetailPage";
 import { SearchResultPage } from "@/Pages/SearchResultPage";
+import { CouponListPage } from "@/Pages/CouponListPage";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/search-result",
         element: <SearchResultPage />,
+      },
+      {
+        path: "/coupons",
+        element: <CouponListPage />,
       },
     ],
   },
