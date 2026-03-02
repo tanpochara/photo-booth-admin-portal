@@ -8,6 +8,8 @@ import { useEditFrameAsset } from "@/hooks/api/useEditFrameAsset";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import type { FrameAssetItem } from "./types";
+import { useRemoveOverlay } from "@/hooks/api/useRemoveOverlay";
+import { toast } from "sonner";
 
 type Props = {
   frameId: string;
@@ -45,6 +47,7 @@ function buildAssetsFormData(edit: AssetEditState): FormData {
 export function AssetsTab({ frameId, assets, overlayMode }: Props) {
   const queryClient = useQueryClient();
   const { mutateAsync, isPending } = useEditFrameAsset();
+  const { mutate: removeOverlay, isPending: isRemovingOverlay } = useRemoveOverlay();
   const [isEditing, setIsEditing] = useState(false);
   const [failedAssetPreview, setFailedAssetPreview] = useState<Record<string, boolean>>({});
 
@@ -87,6 +90,18 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
         },
       }
     );
+  }
+
+  function onRemoveOverlay() {
+    removeOverlay(frameId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["frame-detailed"] });
+        toast.success("Overlay removed");
+      },
+      onError: () => {
+        toast.error("Failed to remove overlay");
+      },
+    });
   }
 
   return (
@@ -209,6 +224,13 @@ export function AssetsTab({ frameId, assets, overlayMode }: Props) {
                     {a.label}
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
+                    {a.label === 'overlay' && (
+                      <div className="flex w-full justify-end">
+                        <Button variant="destructive" onClick={onRemoveOverlay} disabled={isRemovingOverlay}>
+                          Remove overlay
+                        </Button>
+                      </div>
+                    )}
                     {!failed && (
                       <img
                         src={url}

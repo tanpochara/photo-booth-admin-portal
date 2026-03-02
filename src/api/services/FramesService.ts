@@ -160,4 +160,22 @@ export class FramesService {
             },
         });
     }
+    /**
+     * Remove the overlay of a child frame
+     * Removes the overlay of a child frame
+     * @param childFrameId
+     * @returns any Overlay removed successfully
+     * @throws ApiError
+     */
+    public static framesControllerRemoveOverlay(
+        childFrameId: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/frames/{childFrameId}/remove-overlay',
+            path: {
+                'childFrameId': childFrameId,
+            },
+        });
+    }
 }
