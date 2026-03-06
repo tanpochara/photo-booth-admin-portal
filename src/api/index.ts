@@ -7,10 +7,11 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
-export type { ActiveCouponResponseDto } from './models/ActiveCouponResponseDto';
+export { ActiveCouponResponseDto } from './models/ActiveCouponResponseDto';
 export type { ChildFrameResponseDto } from './models/ChildFrameResponseDto';
 export type { CreateFrameRequestDto } from './models/CreateFrameRequestDto';
 export { DetailedFrameResponseDto } from './models/DetailedFrameResponseDto';
+export type { DistributeCouponRequestDto } from './models/DistributeCouponRequestDto';
 export { EditAssetsRequestDto } from './models/EditAssetsRequestDto';
 export { EditImageCoordinateRequestDto } from './models/EditImageCoordinateRequestDto';
 export type { EditImageCoordinatesRequestDto } from './models/EditImageCoordinatesRequestDto';

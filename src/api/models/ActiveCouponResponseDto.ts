@@ -15,5 +15,19 @@ export type ActiveCouponResponseDto = {
      * Coupon created at
      */
     createdAt: string;
+    /**
+     * Coupon status
+     */
+    couponStatus: ActiveCouponResponseDto.couponStatus;
 };
+export namespace ActiveCouponResponseDto {
+    /**
+     * Coupon status
+     */
+    export enum couponStatus {
+        ACTIVE = 'ACTIVE',
+        DISTRIBUTED = 'DISTRIBUTED',
+        USED = 'USED',
+    }
+}
 

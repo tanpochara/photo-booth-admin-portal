@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { ActiveCouponResponseDto } from '../models/ActiveCouponResponseDto';
+import type { DistributeCouponRequestDto } from '../models/DistributeCouponRequestDto';
 import type { GenerateQrDto } from '../models/GenerateQrDto';
 import type { PaymentStatusPendingDto } from '../models/PaymentStatusPendingDto';
 import type { PaymentStatusRejectedDto } from '../models/PaymentStatusRejectedDto';
@@ -104,6 +105,33 @@ export class PaymentService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/payment/active-coupons',
+        });
+    }
+    /**
+     * Mark coupon as distributed
+     * Mark a coupon as distributed.
+     * @param requestBody
+     * @returns any
+     * @throws ApiError
+     */
+    public static paymentControllerDistributeCoupon(
+        requestBody: DistributeCouponRequestDto,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/payment/distribute-coupon',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @returns any
+     * @throws ApiError
+     */
+    public static paymentControllerGenerateCoupon(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/payment/generate-coupon',
         });
     }
 }
