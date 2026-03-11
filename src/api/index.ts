@@ -19,6 +19,7 @@ export { EditAssetsRequestDto } from './models/EditAssetsRequestDto';
 export { EditImageCoordinateRequestDto } from './models/EditImageCoordinateRequestDto';
 export type { EditImageCoordinatesRequestDto } from './models/EditImageCoordinatesRequestDto';
 export type { EditMerchantAssetsRequestDto } from './models/EditMerchantAssetsRequestDto';
+export type { EditMerchantOverviewRequestDto } from './models/EditMerchantOverviewRequestDto';
 export { EditOverviewRequestDto } from './models/EditOverviewRequestDto';
 export type { FrameResponseDto } from './models/FrameResponseDto';
 export type { GenerateQrDto } from './models/GenerateQrDto';

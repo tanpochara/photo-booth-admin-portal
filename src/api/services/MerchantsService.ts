@@ -5,6 +5,7 @@
 import type { CreateMerchantRequestDto } from '../models/CreateMerchantRequestDto';
 import type { DetailedMerchantResponseDto } from '../models/DetailedMerchantResponseDto';
 import type { EditMerchantAssetsRequestDto } from '../models/EditMerchantAssetsRequestDto';
+import type { EditMerchantOverviewRequestDto } from '../models/EditMerchantOverviewRequestDto';
 import type { LinkMerchantFrameRequestDto } from '../models/LinkMerchantFrameRequestDto';
 import type { MerchantFrameResponseDto } from '../models/MerchantFrameResponseDto';
 import type { MerchantResponseDto } from '../models/MerchantResponseDto';
@@ -71,6 +72,38 @@ export class MerchantsService {
         });
     }
     /**
+     * Edit merchant overview
+     * Partially update merchant fields including name, slug, radius, and location coordinates.
+     * @param merchantId Merchant ID
+     * @param xAdminApiKey Admin API key for authentication
+     * @param requestBody
+     * @returns MerchantResponseDto Merchant overview updated successfully
+     * @throws ApiError
+     */
+    public static merchantsControllerEditOverview(
+        merchantId: string,
+        xAdminApiKey: string,
+        requestBody: EditMerchantOverviewRequestDto,
+    ): CancelablePromise<MerchantResponseDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/merchants/{merchantId}/overview',
+            path: {
+                'merchantId': merchantId,
+            },
+            headers: {
+                'x-admin-api-key': xAdminApiKey,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                401: `Unauthorized`,
+                404: `Merchant not found`,
+                409: `Slug already in use by another merchant`,
+            },
+        });
+    }
+    /**
      * Link a frame to a merchant
      * Links an existing child frame to this merchant and sets its frameType to LOCATION. Throws an error if the frame is already linked to a merchant.
      * @param merchantId Merchant ID
@@ -99,6 +132,38 @@ export class MerchantsService {
                 401: `Unauthorized`,
                 404: `Merchant or frame not found`,
                 409: `Frame is already linked to a merchant`,
+            },
+        });
+    }
+    /**
+     * Unlink a frame from a merchant
+     * Removes the merchant association from a child frame and resets its frameType to MONTHLY.
+     * @param merchantId Merchant ID
+     * @param xAdminApiKey Admin API key for authentication
+     * @param requestBody
+     * @returns any Frame unlinked successfully
+     * @throws ApiError
+     */
+    public static merchantsControllerUnlinkFrame(
+        merchantId: string,
+        xAdminApiKey: string,
+        requestBody: LinkMerchantFrameRequestDto,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/merchants/{merchantId}/unlink-frame',
+            path: {
+                'merchantId': merchantId,
+            },
+            headers: {
+                'x-admin-api-key': xAdminApiKey,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                401: `Unauthorized`,
+                403: `Frame is not linked to this merchant`,
+                404: `Merchant or frame not found`,
             },
         });
     }
