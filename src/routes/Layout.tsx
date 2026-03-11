@@ -17,6 +17,7 @@ const queryClient = new QueryClient();
 
 const navItems = [
   { path: "/", label: "Frames" },
+  { path: "/merchants", label: "Merchants" },
   { path: "/search-result", label: "Search Results" },
   { path: "/coupons", label: "Coupons" },
 ];

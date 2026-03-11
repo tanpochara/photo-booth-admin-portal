@@ -4,6 +4,8 @@ import { HomePage } from "@/Pages/Home";
 import { FrameDetailPage } from "@/Pages/FrameDetailPage";
 import { SearchResultPage } from "@/Pages/SearchResultPage";
 import { CouponListPage } from "@/Pages/CouponListPage";
+import { MerchantListPage } from "@/Pages/MerchantListPage";
+import { MerchantDetailPage } from "@/Pages/MerchantDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
       {
         path: "/coupons",
         element: <CouponListPage />,
+      },
+      {
+        path: "/merchants",
+        element: <MerchantListPage />,
+      },
+      {
+        path: "/merchants/:merchantId",
+        element: <MerchantDetailPage />,
       },
     ],
   },

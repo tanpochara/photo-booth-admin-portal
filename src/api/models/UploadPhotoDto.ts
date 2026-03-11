@@ -19,5 +19,13 @@ export type UploadPhotoDto = {
      * Screen orientation (0 = landscape, 1 = portrait)
      */
     screenOrientation?: string;
+    /**
+     * User latitude (required for LOCATION frame types)
+     */
+    lat?: number;
+    /**
+     * User longitude (required for LOCATION frame types)
+     */
+    long?: number;
 };
 
