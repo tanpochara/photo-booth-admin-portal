@@ -1,5 +1,17 @@
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Separator } from "@/components/ui/separator";
+import { useDeleteFrame } from "@/hooks/api/useDeleteFrame";
 import { useToggleFrameActiveStatus } from "@/hooks/api/useToggleFrameActiveStatus";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
@@ -14,6 +26,7 @@ type Props = {
 export function FrameDetailHeader({ frameId, name, isActive }: Props) {
   const navigate = useNavigate();
   const { mutate: toggleFrameActiveStatus } = useToggleFrameActiveStatus();
+  const { mutate: deleteFrame } = useDeleteFrame();
   const queryClient = useQueryClient();
 
   return (
@@ -42,8 +55,41 @@ export function FrameDetailHeader({ frameId, name, isActive }: Props) {
               });
             }}
           >
-            {isActive ? "Delete" : "Activate"}
+            {isActive ? "Disable" : "Activate"}
           </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">Delete</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete frame?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This permanently removes this frame and its child frames,
+                  including their payment history. Existing photo files are
+                  retained.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => {
+                    deleteFrame(frameId, {
+                      onSuccess: () => {
+                        queryClient.invalidateQueries({
+                          queryKey: ["frame-detailed"],
+                        });
+                        toast.success("Frame deleted");
+                        navigate("/");
+                      },
+                    });
+                  }}
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
 
@@ -51,5 +97,4 @@ export function FrameDetailHeader({ frameId, name, isActive }: Props) {
     </>
   );
 }
-
 
