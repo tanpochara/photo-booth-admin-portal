@@ -26,13 +26,19 @@ vi.mock("react-router", () => ({
 }));
 
 vi.mock("sonner", () => ({
-  toast: { success: vi.fn() },
+  toast: { error: vi.fn(), success: vi.fn() },
 }));
 
 const navigate = vi.fn();
 const toggleFrameActiveStatus = vi.fn();
 const deleteFrame = vi.fn(
-  (_frameId: string, options?: { onSuccess?: () => void }) => {
+  (
+    _frameId: string,
+    options?: {
+      onError?: (error: Error) => void;
+      onSuccess?: () => void;
+    },
+  ) => {
     options?.onSuccess?.();
   },
 );
@@ -129,5 +135,46 @@ describe("FrameDetailHeader", () => {
     );
 
     expect(deleteFrame).not.toHaveBeenCalled();
+  });
+
+  it("shows an error when frame deletion fails", () => {
+    deleteFrame.mockImplementationOnce((_frameId, options) => {
+      options?.onError?.(new Error("Delete failed"));
+    });
+    renderHeader(true);
+
+    fireEvent.click(screen.getByRole("button", { name: "Delete" }));
+    fireEvent.click(
+      within(screen.getByRole("alertdialog")).getByRole("button", {
+        name: "Delete",
+      }),
+    );
+
+    expect(toast.error).toHaveBeenCalledWith("Failed to delete frame");
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(navigate).not.toHaveBeenCalled();
+  });
+
+  it("shows the server message when frame deletion is blocked", () => {
+    const serverMessage =
+      "Photo processing is underway for this frame. Wait for it to finish, then try deleting again.";
+    const error = Object.assign(new Error("Conflict"), {
+      body: { userMessage: serverMessage },
+    });
+    deleteFrame.mockImplementationOnce((_frameId, options) => {
+      options?.onError?.(error);
+    });
+    renderHeader(true);
+
+    fireEvent.click(screen.getByRole("button", { name: "Delete" }));
+    fireEvent.click(
+      within(screen.getByRole("alertdialog")).getByRole("button", {
+        name: "Delete",
+      }),
+    );
+
+    expect(toast.error).toHaveBeenCalledWith(serverMessage);
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(navigate).not.toHaveBeenCalled();
   });
 });

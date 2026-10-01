@@ -75,6 +75,16 @@ export function FrameDetailHeader({ frameId, name, isActive }: Props) {
                 <AlertDialogAction
                   onClick={() => {
                     deleteFrame(frameId, {
+                      onError: (error) => {
+                        const userMessage = (
+                          error as { body?: { userMessage?: unknown } }
+                        ).body?.userMessage;
+                        toast.error(
+                          typeof userMessage === "string"
+                            ? userMessage
+                            : "Failed to delete frame",
+                        );
+                      },
                       onSuccess: () => {
                         queryClient.invalidateQueries({
                           queryKey: ["frame-detailed"],
@@ -97,4 +107,3 @@ export function FrameDetailHeader({ frameId, name, isActive }: Props) {
     </>
   );
 }
-
