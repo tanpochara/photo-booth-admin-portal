@@ -21,6 +21,7 @@ export const useReprocessPhoto = () => {
       return PhotosService.photosControllerReprocessPhoto(
         jobId,
         apiKey,
+        undefined,
         requestBody
       );
     },

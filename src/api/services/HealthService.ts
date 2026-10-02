@@ -9,13 +9,19 @@ export class HealthService {
     /**
      * Health check endpoint
      * Returns a simple message to verify the API is running
+     * @param xDeviceId Stable device identifier for debugging/analytics (observability only).
      * @returns string API is running successfully
      * @throws ApiError
      */
-    public static appControllerGetHello(): CancelablePromise<string> {
+    public static appControllerGetHello(
+        xDeviceId?: string,
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/',
+            headers: {
+                'X-Device-Id': xDeviceId,
+            },
         });
     }
 }

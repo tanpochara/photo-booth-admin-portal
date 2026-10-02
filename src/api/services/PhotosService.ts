@@ -16,15 +16,20 @@ export class PhotosService {
      * Upload photos for processing
      * Upload up to 10 photos to be processed with filters and effects. Requires a valid payment token in the Authorization header. Returns a job ID for tracking the processing status.
      * @param formData Photos and processing options
+     * @param xDeviceId Stable device identifier for debugging/analytics (observability only).
      * @returns UploadPhotoResponseDto Photos successfully uploaded and queued for processing
      * @throws ApiError
      */
     public static photosControllerUploadPhoto(
         formData: UploadPhotoDto,
+        xDeviceId?: string,
     ): CancelablePromise<UploadPhotoResponseDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/photos',
+            headers: {
+                'X-Device-Id': xDeviceId,
+            },
             formData: formData,
             mediaType: 'multipart/form-data',
             errors: {
@@ -37,17 +42,22 @@ export class PhotosService {
      * Get job processing status
      * Check the status of a photo processing job using the job ID returned from the upload endpoint.
      * @param jobId Unique job identifier
+     * @param xDeviceId Stable device identifier for debugging/analytics (observability only).
      * @returns JobStatusResponseDto Job status retrieved successfully
      * @throws ApiError
      */
     public static photosControllerGetJobStatus(
         jobId: string,
+        xDeviceId?: string,
     ): CancelablePromise<JobStatusResponseDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/photos/{jobId}',
             path: {
                 'jobId': jobId,
+            },
+            headers: {
+                'X-Device-Id': xDeviceId,
             },
             errors: {
                 404: `Job not found`,
@@ -58,17 +68,22 @@ export class PhotosService {
      * Download processed photo
      * Download the processed photo file once the job status is "done". Returns the image file directly.
      * @param jobId Unique job identifier
+     * @param xDeviceId Stable device identifier for debugging/analytics (observability only).
      * @returns binary Processed photo file
      * @throws ApiError
      */
     public static photosControllerDownloadPhoto(
         jobId: string,
+        xDeviceId?: string,
     ): CancelablePromise<Blob> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/photos/{jobId}/download',
             path: {
                 'jobId': jobId,
+            },
+            headers: {
+                'X-Device-Id': xDeviceId,
             },
             errors: {
                 404: `Processed photo not found or not ready yet`,
@@ -79,17 +94,22 @@ export class PhotosService {
      * Download processed GIF
      * Download the processed GIF file once the job status is "done". Returns the GIF file directly.
      * @param jobId Unique job identifier
+     * @param xDeviceId Stable device identifier for debugging/analytics (observability only).
      * @returns binary Processed GIF file
      * @throws ApiError
      */
     public static photosControllerDownloadGif(
         jobId: string,
+        xDeviceId?: string,
     ): CancelablePromise<Blob> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/photos/{jobId}/download-gif',
             path: {
                 'jobId': jobId,
+            },
+            headers: {
+                'X-Device-Id': xDeviceId,
             },
             errors: {
                 404: `Processed GIF not found or not ready yet`,
@@ -101,18 +121,21 @@ export class PhotosService {
      * Retrieve payment tokens with associated job IDs and metadata. Admin-only endpoint for analytics and reporting. Excludes coupon-based payments.
      * @param xAdminApiKey Admin API key for authentication
      * @param requestBody
+     * @param xDeviceId Stable device identifier for debugging/analytics (observability only).
      * @returns GetResultsResponseDto Results retrieved successfully
      * @throws ApiError
      */
     public static photosControllerGetPhotoResults(
         xAdminApiKey: string,
         requestBody: GetResultsRequestDto,
+        xDeviceId?: string,
     ): CancelablePromise<GetResultsResponseDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/photos/results',
             headers: {
                 'x-admin-api-key': xAdminApiKey,
+                'X-Device-Id': xDeviceId,
             },
             body: requestBody,
             mediaType: 'application/json',
@@ -127,6 +150,7 @@ export class PhotosService {
      * Re-enqueue a previously uploaded photo job for reprocessing with fresh frame configuration. Uses original photos from object storage without re-uploading. Primary lookup via BullMQ job data; falls back to storage listing + DB lookup when the original job has expired from Redis (requires "date" in body). Admin-only endpoint.
      * @param jobId Original job ID to reprocess
      * @param xAdminApiKey Admin API key for authentication
+     * @param xDeviceId Stable device identifier for debugging/analytics (observability only).
      * @param requestBody Optional parameters for fallback recovery. "date" is required when the BullMQ job has expired. "screenOrientation" overrides the default portrait (1) orientation during fallback.
      * @returns UploadPhotoResponseDto Job successfully re-enqueued for processing
      * @throws ApiError
@@ -134,6 +158,7 @@ export class PhotosService {
     public static photosControllerReprocessPhoto(
         jobId: string,
         xAdminApiKey: string,
+        xDeviceId?: string,
         requestBody?: ReprocessPhotoRequestDto,
     ): CancelablePromise<UploadPhotoResponseDto> {
         return __request(OpenAPI, {
@@ -144,6 +169,7 @@ export class PhotosService {
             },
             headers: {
                 'x-admin-api-key': xAdminApiKey,
+                'X-Device-Id': xDeviceId,
             },
             body: requestBody,
             mediaType: 'application/json',
