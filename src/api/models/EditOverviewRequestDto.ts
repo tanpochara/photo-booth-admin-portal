@@ -35,6 +35,14 @@ export type EditOverviewRequestDto = {
      * The aspect ratio of the child frame
      */
     aspectRatio?: EditOverviewRequestDto.aspectRatio | null;
+    /**
+     * The sort order of the child frame
+     */
+    sortOrder?: number | null;
+    /**
+     * Whether the child frame is a collaboration frame
+     */
+    isCollabFrame?: boolean | null;
 };
 export namespace EditOverviewRequestDto {
     /**

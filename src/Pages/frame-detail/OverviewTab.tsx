@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,6 +22,8 @@ type Props = {
   price: number;
   frameType: DetailedFrameResponseDto.frameType;
   aspectRatio: DetailedFrameResponseDto.aspectRatio;
+  sortOrder: number;
+  isCollabFrame: boolean;
   frame: {
     layout?: string | null;
     imagesCount: number;
@@ -27,7 +31,7 @@ type Props = {
   };
 };
 
-export function OverviewTab({ frameId, displayedName, price, frameType, aspectRatio, frame }: Props) {
+export function OverviewTab({ frameId, displayedName, price, frameType, aspectRatio, sortOrder, isCollabFrame, frame }: Props) {
   const queryClient = useQueryClient();
   const { mutateAsync, isPending } = useEditFrameOverview();
   const [isEditing, setIsEditing] = useState(false);
@@ -40,6 +44,8 @@ export function OverviewTab({ frameId, displayedName, price, frameType, aspectRa
     price: price,
     frameType: frameType,
     aspectRatio: aspectRatio,
+    sortOrder: sortOrder,
+    isCollabFrame: isCollabFrame,
   });
 
   useEffect(() => {
@@ -52,9 +58,11 @@ export function OverviewTab({ frameId, displayedName, price, frameType, aspectRa
         price: price,
         frameType: frameType,
         aspectRatio: aspectRatio,
+        sortOrder: sortOrder,
+        isCollabFrame: isCollabFrame,
       });
     }
-  }, [displayedName, frame.imagesCount, frame.layout, frame.replaceBackgroundPrompt, price, frameType, aspectRatio, isEditing]);
+  }, [displayedName, frame.imagesCount, frame.layout, frame.replaceBackgroundPrompt, price, frameType, aspectRatio, sortOrder, isCollabFrame, isEditing]);
 
   async function onSave() {
     await mutateAsync(
@@ -185,6 +193,45 @@ export function OverviewTab({ frameId, displayedName, price, frameType, aspectRa
               </div>
             ) : (
               <div className="font-medium">{(price / 100).toFixed(2)} THB</div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm text-muted-foreground">Sort order</div>
+            {isEditing ? (
+              <Input
+                type="number"
+                min={0}
+                value={form.sortOrder ?? ""}
+                onChange={(e) =>
+                  setForm((p) => ({
+                    ...p,
+                    sortOrder: e.target.value === "" ? null : Number(e.target.value),
+                  }))
+                }
+                disabled={isPending}
+              />
+            ) : (
+              <div className="font-medium">{sortOrder}</div>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-sm text-muted-foreground">Collab frame</div>
+            {isEditing ? (
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="is-collab-frame"
+                  checked={form.isCollabFrame ?? false}
+                  onCheckedChange={(v) => setForm((p) => ({ ...p, isCollabFrame: v === true }))}
+                  disabled={isPending}
+                />
+                <Label htmlFor="is-collab-frame" className="font-normal">
+                  Shows star badge in the app
+                </Label>
+              </div>
+            ) : (
+              <div className="font-medium">{isCollabFrame ? "Yes" : "No"}</div>
             )}
           </div>
 
