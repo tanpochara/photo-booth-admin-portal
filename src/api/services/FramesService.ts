@@ -161,6 +161,24 @@ export class FramesService {
         });
     }
     /**
+     * Delete a frame
+     * Permanently deletes a frame and its child frames
+     * @param childFrameId
+     * @returns any Frame deleted successfully
+     * @throws ApiError
+     */
+    public static framesControllerDeleteFrame(
+        childFrameId: string,
+    ): CancelablePromise<Record<string, any>> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/frames/{childFrameId}',
+            path: {
+                'childFrameId': childFrameId,
+            },
+        });
+    }
+    /**
      * Remove the overlay of a child frame
      * Removes the overlay of a child frame
      * @param childFrameId
