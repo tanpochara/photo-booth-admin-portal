@@ -113,6 +113,8 @@ export const FrameDetailPage = () => {
               price={selectedFrame.price}
               frameType={selectedFrame.frameType}
               aspectRatio={selectedFrame.aspectRatio}
+              sortOrder={selectedFrame.sortOrder}
+              isCollabFrame={selectedFrame.isCollabFrame}
               frame={frame}
             />
           </TabsContent>

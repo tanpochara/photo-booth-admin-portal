@@ -54,6 +54,14 @@ export type DetailedFrameResponseDto = {
      * The is active of the frame
      */
     isActive: boolean;
+    /**
+     * The sort order of the child frame
+     */
+    sortOrder: number;
+    /**
+     * Whether the child frame is a collaboration frame
+     */
+    isCollabFrame: boolean;
 };
 export namespace DetailedFrameResponseDto {
     /**

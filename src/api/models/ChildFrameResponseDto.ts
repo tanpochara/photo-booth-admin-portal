@@ -31,5 +31,13 @@ export type ChildFrameResponseDto = {
      * aspect ratio of the child frame
      */
     aspectRatio: string;
+    /**
+     * The sort order of the child frame
+     */
+    sortOrder: number;
+    /**
+     * Whether the child frame is a collaboration frame
+     */
+    isCollabFrame: boolean;
 };
 
